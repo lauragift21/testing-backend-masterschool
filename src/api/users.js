@@ -1,6 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const errorHandler = require("../middlewares").errorHandler;
+const notFound = require("../middlewares").notFound;
+
 require("dotenv").config();
 
 const user = process.env.MONGO_USER;
@@ -33,7 +36,7 @@ router.post('/', async (req, res) => {
     await user.save();
     res.send(user);
   } catch (error) {
-    res.status(400).send(error);
+    errorHandler(error, req, res);
   }
 });
 
@@ -43,7 +46,7 @@ router.get('/', async (req, res) => {
     const users = await User.find();
     res.send(users);
   } catch (error) {
-    res.status(500).send(error);
+    errorHandler(error, req, res);
   }
 });
 
@@ -53,11 +56,11 @@ router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(id);
     if (!user) {
-      return res.status(404).send();
+      notFound(req, res);
     }
     res.send(user);
   } catch (error) {
-    res.status(500).send(error);
+    errorHandler(error, req, res);
   }
 });
 
@@ -68,11 +71,11 @@ router.put('/:id', async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(id, { name, email, password }, { new: true });
     if (!user) {
-      return res.status(404).send();
+      notFound(req, res);
     }
     res.send(user);
   } catch (error) {
-    res.status(500).send(error);
+    errorHandler(error, req, res);
   }
 });
 
@@ -82,11 +85,11 @@ router.delete('/:id', async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(id);
     if (!user) {
-      return res.status(404).send();
+      notFound(req, res);
     }
     res.send(user);
   } catch (error) {
-    res.status(500).send(error);
+    errorHandler(error, req, res);
   }
 });
 
