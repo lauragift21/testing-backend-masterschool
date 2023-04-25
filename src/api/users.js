@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const User = require("./users.model");
+const User = require("../models/users");
 const errorHandler = require("../middlewares").errorHandler;
 const notFound = require("../middlewares").notFound;
 
@@ -15,8 +15,8 @@ router.post('/', async (req, res) => {
     notFound(req, res);
   }
   try {
-    await user.save();
-    res.send(user);
+    const newUser = await user.save();
+    res.send(newUser);
   } catch (error) {
     errorHandler(error, req, res);
   }
