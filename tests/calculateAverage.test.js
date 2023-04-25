@@ -1,5 +1,5 @@
 // Import the function to be tested
-const calculateAverage = require('../src/average');
+const calculateAverage = require('../src/calculateAverage');
 
 describe('calculateAverage', () => {
   it('should return the correct average for an array of numbers', () => {
