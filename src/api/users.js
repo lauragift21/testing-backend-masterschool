@@ -14,7 +14,6 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Could not connect to MongoDB", err));
 
-// Define schema and model for the database
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -22,10 +21,8 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model("User", userSchema);
-
 const router = express.Router();
 
-// use body-parser middleware
 router.use(bodyParser.json());
 
 // Create a new user
