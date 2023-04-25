@@ -11,6 +11,9 @@ router.use(bodyParser.json());
 router.post('/', async (req, res) => {
   const { name, email, password } = req.body;
   const user = new User({ name, email, password });
+  if (!user) {
+    notFound(req, res);
+  }
   try {
     await user.save();
     res.send(user);
@@ -34,9 +37,6 @@ router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const user = await User.findById(id);
-    if (!user) {
-      notFound(req, res);
-    }
     res.send(user);
   } catch (error) {
     errorHandler(error, req, res);
@@ -49,9 +49,6 @@ router.put('/:id', async (req, res) => {
   const { name, email, password } = req.body;
   try {
     const user = await User.findByIdAndUpdate(id, { name, email, password }, { new: true });
-    if (!user) {
-      notFound(req, res);
-    }
     res.send(user);
   } catch (error) {
     errorHandler(error, req, res);
