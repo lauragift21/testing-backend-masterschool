@@ -25,6 +25,4 @@ module.exports = {
   notFound,
   errorHandler,
   cors
-  errorHandler,
-  cors
 };
