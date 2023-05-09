@@ -25,18 +25,17 @@ describe("Users Service", () => {
     const response = await request(app).get('/api/v1/users');
     expect(response.status).toBe(200);
     expect(response.body).toEqual(users);
-    expect(response.body.length).toEqual(users.length);
+    expect(response.body[0]._id).toEqual("123");
   });
 
   it('should return a specific user from the id passed in', async () => {
-    const users = [
-      { _id: '123', name: 'John Smith', email: 'john@example.com', password: 'password' },
-      { _id: '456', name: 'Jane Doe', email: 'jane@example.com', password: 'password' },
-    ]
-    User.find.mockResolvedValue(users);
-    const response = await request(app).get('/api/v1/users/${users._id}');
+    const user = { _id: '123', name: 'John Smith', email: 'john@example.com', password: 'password' }
+  
+    User.findById.mockResolvedValue(user);
+    const response = await request(app).get(`/api/v1/users/123`);
     expect(response.status).toBe(200);
-    expect(response.body.length).toEqual(users.name);
+    expect(response.body).toEqual(user);
+    expect(response.body.name).toEqual("John Smith");
   });
 });
 
